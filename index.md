@@ -1,0 +1,80 @@
+---
+title       : Example Slidify Presentation
+subtitle    : This is a sample
+author      : B22
+job         : stuff
+framework   : revealjs        # {io2012, html5slides, shower, dzslides, ...}
+revealjs    : {theme: sky, transition: cube}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+--- .class #1
+
+###### Slide 1
+# Explanation of my Shiny App
+## By B22
+
+--- .class #2 
+###### Slide 2
+#### This is a Slidify presentation to explain the Shiny App I created
+###### Details follow on the next few slides
+
+--- .class #3 &vertical
+###### Slide 3
+### My Shiny app shows the % of the population that was unemployed over time
+#### It also calculates how many months over the period where the % of the population that was unemployed exceeds a set threshold
+
+***
+
+## BONUS SLIDE
+###### (PLEASE DON'T COUNT THIS AGAINST THE 5; THIS IS TO SHOW TINKERING WITH THE DEFAULT STYLE)
+###### Note that the % of the population that is unemployed is not the same as the unemployment rate, as this does not factor in people leaving the workforce (hence why the rate is lower than the unemployment rate)
+
+
+--- .class #4
+###### Slide 4
+###### The % of the population that is unemployed is a key indictor of the economic climate at a given period of time
+
+
+
+```r
+###### Loading libraries and data set
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(reshape2)
+library(scales)
+library(lubridate)
+```
+
+```
+## Error in library(lubridate): there is no package called 'lubridate'
+```
+
+```r
+data(economics)
+```
+
+--- .class #5 ds:alert
+
+###### Slide 5
+###### The average unemployment over the entire time series is:
+###### Code:
+
+```r
+unemp_rt <- mutate(economics, unemp_rt = (unemploy / pop)) %>%
+            summarize(avg_pct_unemp = mean(unemp_rt))
+```
+
+The average unemployment rate over the entire period is 2.84%
+
+
+```r
+first_month <- min(economics$date)
+last_month <- max(economics$date)
+
+num_months <- length(seq(first_month, last_month, by = "1 months"))
+```
+
+The total number of months in the data set is 478
